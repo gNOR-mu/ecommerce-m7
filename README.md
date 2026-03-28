@@ -8,7 +8,6 @@ Entregar la versión final del proyecto integrando lo construido en módulos pre
 publicándolo como producto de portafolio en GitHub: app funcionando, documentación
 clara e instrucciones de ejecución local.
 
-
 # Consideraciones
 
 - Se utiliza MySQL
@@ -53,8 +52,10 @@ Tomando en cuenta que se ejecuta en el equipo local y puerto 8080 con ruta base 
 | http://localhost:8080/admin/products/form | Página para crear o actualizar (si se accede desde /admin/products) un producto           | Sí (solo ADMIN)         |
 
 # Alcance (MVP final)
+
 - Autenticación y roles (desde M6)
-    - Usuario (cliente): iniciar sesión, ver catálogo y usar el carrito (agregar, quitar, actualizar cantidades) con totales correctos.
+    - Usuario (cliente): iniciar sesión, ver catálogo y usar el carrito (agregar, quitar, actualizar cantidades) con
+      totales correctos.
     - Administrador: acceder a /admin para listar/crear/editar/eliminar productos (CRUD de M5).
 
 - Persistencia real: usuarios y productos en BD (según tu implementación).
@@ -65,10 +66,10 @@ Tomando en cuenta que se ejecuta en el equipo local y puerto 8080 con ruta base 
 
 Credenciales válidas para iniciar sesión (creadas al iniciar la aplicación):
 
-| ROL   | EMAIL              | CONTRASEÑA |
-|-------|--------------------|------------|
-| ADMIN | admin@email.cl     | admin1234  |
-| USER  | user@email.cl      | user1234   |
+| ROL    | EMAIL          | CONTRASEÑA |
+|--------|----------------|------------|
+| ADMIN  | admin@email.cl | admin1234  |
+| CLIENT | user@email.cl  | user1234   |
 
 # Algunas capturas
 

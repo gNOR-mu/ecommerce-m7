@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html
+        lang="es"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{layout/base :: masterLayout(~{::title}, ~{}, ~{::.content}, ~{::.customJs})}">
+<head>
+    <title>Formulario producto</title>
+
+    <th:block class="customCss">
+
+    </th:block>
+</head>
+<body>
+
+<div class="content">
+    <section class="container my-5">
+        <form th:action="${product.id == null} ? @{/admin/products} : @{/admin/products/{id}(id=${product.id})}"
+              th:method="${product.id == null} ? 'post' : 'put'"
+              th:object="${product}">
+
+            <input type="hidden" th:field="*{id}"/>
+
+            <!--NOMBRE-->
+            <div class="mb-3">
+                <label for="name" class="form-label fw-semibold">Nombre</label>
+                <input type="text"
+                       class="form-control form-control-lg"
+                       th:field="*{name}"
+                       th:errorclass="is-invalid"
+                       required>
+
+                <!--ERROR-->
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                    Nombre inválido
+                </div>
+            </div>
+
+
+            <div class="d-flex flex-row gap-3">
+                <!--CATEGORÍA-->
+                <div class="col mb-3">
+                    <label for="categoryId" class="form-label fw-semibold">Categoría</label>
+                    <select class="form-select"
+                            th:field="*{categoryId}"
+                            th:errorclass="is-invalid"
+                            required>
+                        <option value="" disabled selected>-- Selecciona una categoría --</option>
+                        <option th:each="cat : ${categories}"
+                                th:value="${cat.id}"
+                                th:text="${cat.name}">Categoría
+                        </option>
+                    </select>
+
+                    <!--ERROR-->
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}">
+                        Categoría inválido
+                    </div>
+                </div>
+
+                <!--MARCA-->
+                <div class="col mb-3">
+                    <label for="brandId" class="form-label fw-semibold">Marca</label>
+                    <select class="form-select"
+                            th:field="*{brandId}"
+                            th:errorclass="is-invalid"
+                            required>
+                        <option value="" disabled>-- Selecciona una marca --</option>
+                        <option th:each="brand : ${brands}"
+                                th:value="${brand.id}"
+                                th:text="${brand.name}">Marca
+                        </option>
+                    </select>
+                </div>
+
+                <!--ERROR-->
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('brandId')}" th:errors="*{brandId}">
+                    Categoría inválido
+                </div>
+            </div>
+
+            <!--URL IMAGEN-->
+            <div class="mb-3">
+                <label class="fw-bold" for="urlImage">URL imagen</label>
+                <input type="url"
+                       class="form-control"
+                       th:field="*{urlImage}"
+                       th:errorclass="is-invalid"
+                       required>
+                <!--ERROR-->
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('urlImage')}" th:errors="*{urlImage}">
+                    Url inválida
+                </div>
+            </div>
+
+            <!--DESCRIPCIÓN-->
+            <div class="mb-3">
+                <label class="fw-bold" for="description">Descripción</label>
+                <textarea class="form-control"
+                          th:field="*{description}"
+                          th:errorclass="is-invalid"
+                          required></textarea>
+                <!--ERROR-->
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                    Descripción inválida
+                </div>
+            </div>
+
+            <!--DESCRIPCIÓN CORTA-->
+            <div class="mb-3">
+                <label class="fw-bold" for="shortDescription">Descripción corta</label>
+                <input type="text"
+                       class="form-control"
+                       th:field="*{shortDescription}"
+                       th:errorclass="is-invalid"
+                       required>
+                <!--ERROR-->
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('shortDescription')}"
+                     th:errors="*{shortDescription}">
+                    Descripción corta inválida
+                </div>
+            </div>
+
+            <!--PRECIO-->
+            <div class="mb-3">
+                <label class="fw-bold">Precio</label>
+                <input type="number"
+                       class="form-control"
+                       th:field="*{price}"
+                       th:errorclass="is-invalid"
+                       min="0.0"
+                       step="1.0"
+                       required>
+                <!--ERROR-->
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">
+                    Descripción corta inválida
+                </div>
+            </div>
+
+            <!--STOCK-->
+            <div class="mb-3">
+                <label class="fw-bold">Stock</label>
+                <input type="number"
+                       class="form-control"
+                       th:field="*{stock}"
+                       th:errorclass="is-invalid"
+                       min="0"
+                       required>
+                <!--ERROR-->
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}">
+                    Precio inválido
+                </div>
+            </div>
+            <!--SKU-->
+            <div class="mb-3">
+                <label for="sku" class="form-label fw-semibold">SKU</label>
+                <input type="text"
+                       class="form-control form-control-lg"
+                       th:field="*{sku}"
+                       th:errorclass="is-invalid">
+
+                <!--ERROR-->
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('sku')}" th:errors="*{sku}">
+                    SKU inválido
+                </div>
+            </div>
+
+            <!-- CARACTERÍSTICAS -->
+            <div id="features-container">
+                <label class="fw-bold">Características</label>
+
+                <div th:each="feature : *{features}" class="row mb-2 feature-row">
+                    <div class="col-5">
+                        <input type="text" name="featureKeys" class="form-control"
+                               th:value="${feature.key}" required>
+                    </div>
+                    <div class="col-5">
+                        <input type="text" name="featureValues" class="form-control"
+                               th:value="${feature.value}" required>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-danger w-100"
+                                onclick="this.closest('.feature-row').remove()" title="Eliminar fila">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <button type="button" class="btn btn-outline-primary mt-2" onclick="addFeatureRow()">
+                <i class="bi bi-plus-circle me-1"></i> Agregar característica
+            </button>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">Guardar</button>
+                <a th:href="@{/admin/products}" class="btn btn-secondary">Cancelar</a>
+            </div>
+
+        </form>
+    </section>
+</div>
+
+<th:block class="customJs">
+    <script th:src="@{/assets/js/productForm.js}"></script>
+</th:block>
+
+</body>
+</html>

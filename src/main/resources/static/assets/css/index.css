@@ -1,0 +1,56 @@
+:root {
+
+    --border-color: orange;
+
+    /* grosor de la linea en cita*/
+    --border-thickness: 5px;
+}
+
+.img-container {
+    max-height: 94vh;
+}
+
+.card-img-overlay {
+    text-shadow: 3px 3px 6px #000000;
+}
+
+.img-principal {
+    filter: brightness(0.6);
+}
+
+
+
+#products-container .card {
+    width: 18rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quote-corners {
+    position: relative;
+}
+
+/* Estilo base para AMBOS pseudo-elementos (esquinas)
+*/
+.quote-corners::before,
+.quote-corners::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.quote-corners::before {
+    top: 0;
+    left: 0;
+    border-top: var(--border-thickness) solid var(--border-color);
+    border-left: var(--border-thickness) solid var(--border-color);
+}
+
+/* Esquina Inferior Derecha (::after) */
+.quote-corners::after {
+    bottom: 0;
+    right: 0;
+    border-bottom: var(--border-thickness) solid var(--border-color);
+    border-right: var(--border-thickness) solid var(--border-color);
+}

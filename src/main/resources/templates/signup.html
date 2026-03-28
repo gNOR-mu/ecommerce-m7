@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html
+        lang="es"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{layout/base :: masterLayout(~{::title}, ~{::.customCss}, ~{::.content}, ~{})}">
+<head>
+    <title>Registro</title>
+
+    <th:block class="customCss">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/css/signup.css}">
+    </th:block>
+</head>
+<body>
+
+<div class="content">
+    <div class="container-fluid p-0 flex-grow-1 d-flex max-vh-100 vh-100 row g-0 w-100 main-login-row">
+        <!--IZQUIERDA: IMAGEN-->
+        <div class="col-lg-7 d-none d-lg-block position-relative">
+            <img th:src="@{/assets/img/bg-signup.webp}"
+                 class="w-100 h-100 img-side"
+                 alt="Fondo de aventura">
+        </div>
+
+        <!--DERECHA: FORMULARIO-->
+        <div class="col-12 col-lg-5 bg-white d-flex align-items-center justify-content-center p-5">
+
+            <div class="w-100 form-side">
+                <h2 class="mb-4 text-dark fw-bold text-center">¡ENCANTADO DE CONOCERTE!</h2>
+
+                <!--FORM-->
+                <form method="post" th:action="@{/signup}" th:object="${user}">
+                    <!--NOMBRE-->
+                    <div class="mb-3">
+                        <label for="name" class="form-label text-dark fw-semibold">Nombre</label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               th:field="*{name}"
+                               th:errorclass="is-invalid"
+                               placeholder="Juan"
+                               required>
+                        <!--ERROR-->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                            Nombre inválido
+                        </div>
+                    </div>
+
+                    <!--APELLIDO-->
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label text-dark fw-semibold">Apellido</label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               th:field="*{lastName}"
+                               th:errorclass="is-invalid"
+                               placeholder="Pérez"
+                               required>
+
+                        <!--ERROR APELLIDO-->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
+                            Apellido inválido
+                        </div>
+                    </div>
+
+                    <!-- EMAIL-->
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-dark fw-semibold">Correo electrónico</label>
+                        <input type="email"
+                               class="form-control form-control-lg"
+                               th:field="*{email}"
+                               th:errorclass="is-invalid"
+                               placeholder="correo@ejemplo.cl"
+                               required>
+
+                        <!--ERROR EMAIL-->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                            Correo inválido
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label text-dark fw-semibold">Contraseña</label>
+                        <input type="password"
+                               class="form-control form-control-lg"
+                               th:field="*{password}"
+                               th:errorclass="is-invalid"
+                               minlength="8" maxlength="100"
+                               placeholder="********"
+                               required>
+
+                        <!--ERROR CONTRASEÑA-->
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                            Contraseña inválida
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-lg w-100 fw-bold bg-warning">
+                        Registrarme
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

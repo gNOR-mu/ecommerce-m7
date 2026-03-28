@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html
+        lang="es"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{layout/base :: masterLayout(~{::title}, ~{::.customCss}, ~{::.content}, ~{})}">
+<head>
+    <title th:text="${product == null ? 'Producto no encontrado' : product.name}"></title>
+
+    <th:block class="customCss">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/css/productId.css}">
+    </th:block>
+</head>
+<body>
+
+<div class="content">
+    <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}">
+        Mensaje de error
+    </div>
+
+    <section th:if="${product == null}" class="container">
+        <H1>Producto no encontrado :(</H1>
+    </section>
+
+    <section th:if="${product != null}" class="container my-5">
+        <div class="row mx-0 gy-sm-3">
+            <img th:src="${product.urlImage}" class="img-product shadow-lg p-0" th:alt="${product.name}">
+            <div class="col">
+                <h1 class="col" th:text="${product.name}"></h1>
+                <h5 class="col" th:text="${product.shortDescription}"></h5>
+                <h6 class="col"><strong th:text="${#numbers.formatCurrency(product.price)}">$0.00</strong></h6>
+
+
+                <form th:action="@{/cart/add}"
+                      method="post"
+                      class="d-flex align-items-center mt-3"
+                      th:object="${addToCart}">
+
+                    <input type="hidden" th:field="*{productId}" th:value="${product.id}">
+
+                    <!--CANTIDAD-->
+                    <input type="number"
+                           th:field="*{quantity}"
+                           th:errorclass="is-invalid"
+                           min="1"
+                           max="5"
+                           class="form-control form-control-sm me-2" style="width: 70px;">
+                    <button type="submit" class="btn btn-dark fw-bold">
+                        <i class="bi bi-cart-plus"></i> Añadir
+                    </button>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">
+                        Cantidad inválida
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="accordion  my-4 ">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+                        Descripción
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <span th:text="${product.description}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseTwo">
+                        Características
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <ul class="list-group list-group-flush mb-4 ms-3">
+                            <li th:each="feature : ${product.features}">
+                                <strong class="text-capitalize" th:text="${feature.key} + ':'"></strong>
+                                <span class="text-capitalize" th:text="${feature.value}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

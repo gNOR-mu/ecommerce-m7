@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html
+        th:fragment="masterLayout(title, customCss, content, customJs)"
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:replace="${title}">Titulo</title>
+
+    <!--Metadata-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+    <!-- ÍCONO DE LA APP-->
+    <link rel="icon" type="image/svg+xml" th:href="@{/assets/img/favicon.svg}"/>
+
+    <!--CSS global-->
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/global.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap-icons.min.css}">
+
+    <!--CSS personalizado de las páginas-->
+    <th:block th:replace="${customCss}"></th:block>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+<!-- header -->
+<header th:replace="fragments/header :: headerFragment"></header>
+
+<main class="p-0" th:insert="${content}">
+</main>
+
+<!-- footer -->
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+
+<!-- scripts -->
+<script th:src="@{/assets/js/jquery-3.7.1.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+
+<th:block th:replace="${customJs}"></th:block>
+</body>
+</html>

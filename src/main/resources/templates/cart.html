@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html
+        lang="es"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{layout/base :: masterLayout(~{::title}, ~{}, ~{::.content}, ~{})}">
+<head>
+    <title>Carrito</title>
+
+    <th:block class="customCss">
+
+    </th:block>
+</head>
+<body>
+
+<div class="content">
+    <!--PRODUCTOS: SE MUESTRAN CUANDO LA LISTA DE ITEMS  ESTÁ VACÍA-->
+    <section th:if="${#lists.isEmpty(cart.items)}" class="container my-5">
+        <h1>Ningún producto en el carrito</h1>
+        <h2>¡Añadamos algunos!</h2>
+    </section>
+
+    <!--PRODUCTOS: SE MUESTRAN CUANDO LA LISTA DE ITEMS NO ESTÁ VACÍA-->
+    <section th:unless="${#lists.isEmpty(cart.items)}" class="container my-5">
+        <h1>Carrito de productos</h1>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio unitario</th>
+                        <th scope="col">Precio total</th>
+                        <th scope="col" class="text-center">Acción</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="product: ${cart.items}">
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.quantity}"></td>
+                        <td th:text="${#numbers.formatCurrency(product.unitPrice)}"></td>
+                        <td th:text="${#numbers.formatCurrency(product.subTotal)}"></td>
+                        <td class="align-middle">
+                            <div class="d-flex justify-content-center gap-2">
+
+                                <!-- PÁGINA DEL PRODUCTO-->
+                                <a class="btn" title="Ver" th:href="@{/products/{id}(id=${product.id})}">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
+                                <!--ELIMINAR-->
+                                <!--ELIMINAR PRODUCTO-->
+                                <form th:action="@{/cart/remove/{id}(id=${product.id})}" th:method="delete"
+                                      th:attr="onsubmit=|return confirm('¿Estás seguro de que deseas eliminar ${product.name}?');|">
+
+                                    <input type="hidden" name="id" th:value="${product.id}">
+
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-4 border rounded p-2">
+                <h3>Resumen de la orden</h3>
+                <h4>Descuentos totales: <span th:text="${cart.cartPricing.totalDiscounts} + '%'"></span></h4>
+                <ul>
+                    <li th:each="discount : ${cart.cartPricing.discountConditions}" th:text="${discount}"></li>
+                </ul>
+                <hr>
+
+                <h4>Subtotal: <span th:text="${#numbers.formatCurrency(cart.cartPricing.subtotal)}"></span></h4>
+                <hr>
+
+                <h3>Precio final: <span th:text="${#numbers.formatCurrency(cart.cartPricing.totalFinal)}"></span></h3>
+
+                <form method="post" th:action="@{/checkout}">
+                    <button type="submit" class="btn btn-dark fw-bold w-100">Pagar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

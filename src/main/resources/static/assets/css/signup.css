@@ -1,0 +1,10 @@
+.img-side{
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.form-side{
+    max-width: 420px;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html
+        lang="es"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{layout/base :: masterLayout(~{::title}, ~{::.customCss}, ~{::.content}, ~{})}">
+<head>
+    <title>Iniciar sesión</title>
+
+    <th:block class="customCss">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/css/login.css}">
+    </th:block>
+</head>
+<body>
+
+<div class="content">
+    <div class="container-fluid p-0 flex-grow-1 d-flex max-vh-100 vh-100 row g-0 w-100 main-login-row">
+        <!--IZQUIERDA: IMAGEN-->
+        <div class="col-lg-7 d-none d-lg-block position-relative">
+            <img th:src="@{/assets/img/bg-login.jpg}"
+                 class="w-100 h-100 img-side"
+                 alt="Fondo de aventura">
+        </div>
+
+        <!--DERECHA: FORMULARIO-->
+        <div class="col-12 col-lg-5 bg-white d-flex align-items-center justify-content-center p-5">
+
+            <div class="w-100 form-side">
+                <h2 class="mb-4 text-dark fw-bold text-center">¡HOLA!</h2>
+
+                <form method="post" th:action="@{/login}">
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-dark fw-semibold">Correo electrónico</label>
+                        <input type="email" class="form-control form-control-lg" id="email" name="email"
+                               placeholder="correo@ejemplo.cl" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label text-dark fw-semibold">Contraseña</label>
+                        <input type="password" class="form-control form-control-lg" id="password" name="password"
+                               placeholder="********" required>
+                    </div>
+
+                    <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center" role="alert">
+                            <p>Credenciales incorrectas.</p>
+                    </div>
+
+                    <button type="submit" class="btn btn-lg w-100 fw-bold bg-warning">
+                        Ingresar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

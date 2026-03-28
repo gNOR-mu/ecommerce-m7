@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html
+        lang="es"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{layout/base :: masterLayout(~{::title}, ~{}, ~{::.content}, ~{})}">
+<head>
+    <title>Administrar productos</title>
+
+    <th:block class="customCss">
+
+    </th:block>
+</head>
+<body>
+
+<div class="content">
+
+    <section class="container my-5">
+
+        <div th:if="${successMessage}" class="alert alert-success" role="alert" th:text="${successMessage}">
+            Mensaje de éxito
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}">
+            Mensaje de error
+        </div>
+
+        <h3 class="d-flex align-items-center mb-4">
+            <th:block th:if="${param.searchText != null and not #strings.isEmpty(param.searchText)}">
+                <span th:text="${#lists.size(products)} + ' Resultados para: '">0 Resultados para: </span> &nbsp;
+                <a th:href="@{/admin/products}"
+                   title="Volver"
+                   class="badge bg-dark rounded-pill text-bg-primary text-decoration-none d-inline-flex align-items-center px-3 py-2 shadow-sm">
+                    <span class="fw-normal me-2" th:text="${param.searchText}">Texto buscado</span>
+                    <i class="bi bi-x-circle-fill text-white opacity-75"></i>
+                </a>
+            </th:block>
+
+            <th:block th:unless="${param.searchText != null and not #strings.isEmpty(param.searchText)}">
+                Lista de Productos
+            </th:block>
+
+            <a th:href="@{/admin/products/form}"
+               class="btn btn-dark shadow-sm ms-auto">
+                <i class="bi bi-plus-circle me-2"></i>Agregar Producto
+            </a>
+        </h3>
+
+        <form method="get" th:action="@{/admin/products/search}" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="searchText" class="form-control"
+                       placeholder="Buscar por producto, categoría o marca"
+                       th:value="${param.searchText}">
+                <button type="submit" class="btn btn-dark">Buscar</button>
+            </div>
+        </form>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Stock</th>
+                <th scope="col" class="text-center">Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.name}">Nombre</td>
+                <td th:text="${product.brandName}">Marca</td>
+                <td th:text="${product.categoryName}">Categoría</td>
+
+                <td th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 'POINT', 0, 'COMMA')}">$0</td>
+
+                <td th:text="${product.stock}">0</td>
+
+                <td class="align-middle">
+                   <div class="d-flex justify-content-center">
+                       <!-- PÁGINA DEL PRODUCTO-->
+                       <a class="btn" title="Ver" th:href="@{/products/{id}(id=${product.id})}">
+                           <i class="bi bi-eye"></i>
+                       </a>
+
+                       <!--EDITAR PRODUCTO-->
+                       <a class="btn" title="Editar" th:href="@{/admin/products/form(id=${product.id})}">
+                           <i class="bi bi-pencil"></i>
+                       </a>
+
+                       <!--ELIMINAR PRODUCTO-->
+                       <form th:action="@{/admin/products/{id}(id=${product.id})}" th:method="delete"
+                             th:attr="onsubmit=|return confirm('¿Estás seguro de que deseas eliminar ${product.name}? Esta acción no se puede deshacer.');|">
+
+                           <input type="hidden" name="id" th:value="${product.id}">
+
+                           <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
+                               <i class="bi bi-trash3"></i>
+                           </button>
+                       </form>
+                   </div>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(products)}">
+                <td colspan="6" class="text-center py-4 text-muted">
+                    No se encontraron productos.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+
+</body>
+</html>

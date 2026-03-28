@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html
+        lang="es"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{layout/base :: masterLayout(~{::title}, ~{}, ~{::.content}, ~{})}">
+<head>
+    <title>Gracias por comprar</title>
+</head>
+<body>
+
+<div class="content">
+
+    <section class="container my-5">
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert" th:text="${errorMessage}">
+            Mensaje de error
+        </div>
+        <div th:unless="${errorMessage}">
+            <h1>Gracias por tu compra</h1>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

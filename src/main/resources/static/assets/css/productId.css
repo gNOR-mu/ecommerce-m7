@@ -1,0 +1,13 @@
+.img-product {
+    max-height: 500px;
+    max-width: 500px;
+    border-radius: 20px;
+}
+
+
+.accordion {
+    /* Color de fondo que tendrá el botón cuando esté abierto */
+    --bs-accordion-active-bg: none;
+
+    --bs-accordion-btn-focus-box-shadow: 0;
+}

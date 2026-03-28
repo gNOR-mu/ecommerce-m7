@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html
+        lang="es"
+        xmlns:th="http://www.thymeleaf.org"
+        th:replace="~{layout/base :: masterLayout(~{::title}, ~{::.customCss}, ~{::.content}, ~{})}">
+<head>
+    <title>Inicio</title>
+
+    <th:block class="customCss">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/css/index.css}">
+    </th:block>
+</head>
+<body>
+
+<div class="content">
+    <!-- sección principal -->
+    <section class="img-container position-relative text-white text-center overflow-hidden">
+        <img th:src="@{/assets/img/bg-principal-index.jpg}"
+             class="img-fluid img-principal"
+             alt="imagen de fondo principal">
+        <div class="card-img-overlay d-flex flex-column justify-content-center fs-3">
+            <h1 th:text="${appName}">app</h1>
+            <p>Los mejores productos para que tus viajes se conviertan en
+                una experiencia inolvidable.</p>
+        </div>
+    </section>
+
+    <!--PRODUCTOS DESTACADOS-->
+    <section class="container mt-5 text-center" th:if="${!#lists.isEmpty(topProducts)}">
+        <h2 class=" m-5">Productos destacados</h2>
+        <div class="row gap-3 justify-content-center">
+            <article th:each="product : ${topProducts}" class="col-lg card p-0 product-card">
+                <a th:href="@{/products/{id}(id = ${product.id})}" class="product-card-link">
+                    <img th:src="${product.urlImage}"
+                         th:alt="${product.name}"
+                         class="card-img-top product-card-img">
+                    <div class="card-body">
+                        <h5 th:text="${product.name}" class="card-title"></h5>
+                        <p th:text="${product.shortDescription}" class="card-text"></p>
+                        <span><strong th:text="${#numbers.formatCurrency(product.price)}">$0.00</strong></span>
+                    </div>
+                </a>
+            </article>
+        </div>
+    </section>
+
+    <!-- info sobre qué es la empresa -->
+    <section class="bg-dark mt-5 p-5">
+        <div class="container text-center text-white">
+            <h2> ¿Qué es [[${appName}]]?</h2>
+            <p>[[${appName}]] es una plataforma ficticia de E-commerce con
+                temática de productos para viajes, creada
+                como requerimiento del "Ejercicio Práctico - Desarrollo Portafolio Módulo 2" y actualizado para su
+                implementación del módulo 5 y finalmente su implementación en el módulo 6
+                para el curso DESARROLLO DE APLICACIONES FULL STACK JAVA TRAINEE
+                v2.0</p>
+        </div>
+    </section>
+
+    <!-- ventajas de la empresa -->
+    <section class="container my-5 ">
+        <div class="row p-2">
+            <h3 class="text-end my-3">Tú eres nuestra prioridad</h3>
+
+            <div class="col-md card text-center justify-content-center border-0">
+                <i class="bi bi-lightning fs-1 card-img-top"></i>
+                <div class=" card-body">
+                    <h5 class="card-title">Entregas flash</h5>
+                    <h6 class="card-text">Recibe tu producto en 1 día
+                        hábil sin importar el lugar en el que te
+                        encuentres
+                    </h6>
+                </div>
+            </div>
+            <div class="col-md card text-center justify-content-center border-0">
+                <i class="bi bi-emoji-heart-eyes fs-1  card-img-top"></i>
+                <div class=" card-body">
+                    <h5 class="card-title">45 682 clientes
+                        satisfechos</h5>
+                    <h6 class="card-text">Los números hablan por si
+                        mismos</h6>
+                </div>
+            </div>
+            <div class="col-md card text-center justify-content-center border-0">
+                <i class="bi bi-shield-check fs-1  card-img-top"></i>
+                <div class=" card-body">
+                    <h5 class="card-title">3 años de garantía</h5>
+                    <h6 class="card-text">Confiamos en nuestros
+                        productos con materiales de grado militar, por
+                        eso
+                        te ofrecemos la mejor garantía
+                        del mercado</h6>
+                </div>
+            </div>
+            <div class="col-md card text-center justify-content-center border-0">
+                <i class="bi bi-percent fs-1 card-img-top"></i>
+                <div class=" card-body">
+                    <h5 class="card-title">Programa de clientes
+                        frecuentes</h5>
+                    <h6 class="card-text">Nos encanta tenerte como
+                        cliente, por eso constantemente te ofrecemos
+                        descuentos
+                        importantes</h6>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- cita ficticia -->
+    <section class="container my-5">
+        <div class="card border-0 quote-corners">
+            <i class="bi bi-quote position-absolute bottom-0 end-0 text-white"
+               style="font-size: 6rem; opacity: 0.2; line-height: 1; transform: translateY(20%);">
+            </i>
+            <div class="card-body p-4 p-md-5">
+                <figure class="mb-0">
+                    <blockquote>
+                        <p class="fs-3 mb-3">&ldquo; Desde mi primera compra no he vuelto a mirar en otras tiendas
+                            &ldquo;</p>
+                    </blockquote>
+                    <figcaption class="opacity-75">- Bart Simpson</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

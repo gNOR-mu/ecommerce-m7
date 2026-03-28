@@ -1,5 +1,7 @@
 # ecommerce-m6
 
+Autor: Gabriel Norambuena Muñoz
+
 Link del repositorio: https://github.com/gNOR-mu/ecommerce-m7
 
 # Propósito
